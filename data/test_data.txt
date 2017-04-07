@@ -1,5 +1,3 @@
-recon.in
---------
 D0-POS
 AAPL 100
 GOOG 200
@@ -16,10 +14,4 @@ D1-POS
 GOOG 220
 SP500 175.75
 Cash 20000
-MSFT 10
-recon.out
----------
-Cash 8000
-GOOG 10
-TD 100
 MSFT 10
