@@ -2,12 +2,12 @@ package reconciliation;
 
 import java.util.Map;
 
-public class Buy implements PortfolioAction {
+public class Buy extends BuySell implements PortfolioAction {
 
 	@Override
 	public Map<String, Double> applyAction(Map<String, Double> curPort, String item, double shares, double cashChange) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Double> newPort = this.applyAction(curPort, item, shares, cashChange,true);
+		return newPort;
 	}
 
 }

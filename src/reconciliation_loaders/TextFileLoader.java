@@ -20,26 +20,30 @@ import models.Transaction;
 import reconciliation.PortfolioAction;
 
 public class TextFileLoader implements ReconLoader{
+	
 	private BufferedReader br;	
 	private Actions actions;
 	private boolean atPos;
 	
-	
-	public TextFileLoader(String file) throws IOException{
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream(file);
-		br = new BufferedReader(new InputStreamReader(is));
+	public TextFileLoader() throws IOException{
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		actions = (Actions) ctx.getBean("actions");
 		ctx.close();
 		atPos = true;
+	}
+	
+	public void setBr(String file) throws IOException{
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(file);
+		br = new BufferedReader(new InputStreamReader(is));
 		br.readLine();
 	}
 	
 	@Override
 	public ReconDay loadNextDay() throws Exception{
 		//first line will be pos - # we can ignore it		
-		Map<String,Double> pos = loadPos();
 		List<Transaction> transactions = loadTrans();
+		Map<String,Double> pos = loadPos();
+
 		
 		ReconDay reconDay = new ReconDay(pos, transactions);
 		return reconDay;
@@ -83,6 +87,9 @@ public class TextFileLoader implements ReconLoader{
 			String item = parts[0];
 			Double value = Double.parseDouble(parts[1]);
 			pos.put(item, value);
+		}
+		if(!pos.containsKey("Cash")){
+			pos.put("Cash", 0.0);
 		}
 		atPos=false;
 		return pos;

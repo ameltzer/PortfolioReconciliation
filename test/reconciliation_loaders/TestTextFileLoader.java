@@ -2,12 +2,10 @@ package reconciliation_loaders;
 import static org.junit.Assert.*;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +23,7 @@ public class TestTextFileLoader {
 	
 	@Before
 	public void setup() throws IOException{
-		fileLoader = new TextFileLoader("test_data.txt");
+		fileLoader = new TextFileLoader();
 	}
 	/*
 	 * AAPL 100
@@ -42,6 +40,7 @@ TD BUY 100 10000
 	 */
 	@Test
 	public void testLoadPos() throws Exception{
+		fileLoader.setBr("test_data.txt");
 		Map<String,Double> pos = fileLoader.loadPos();
 		double applAmt = (double)pos.get("AAPL");
 		assertEquals(applAmt, 100.0,0.01);
@@ -54,13 +53,14 @@ TD BUY 100 10000
 	}
 	@Test
 	public void testLoadTrns() throws Exception{
-		 fileLoader.loadPos();
-		 List<Transaction> transactions = fileLoader.loadTrans();
-		 assertTransaction(transactions.get(0),"AAPL",Sell.class,100,30000);
-		 assertTransaction(transactions.get(1),"GOOG",Buy.class,10,10000);
-		 assertTransaction(transactions.get(2),"Cash", Deposit.class, 0, 1000);
-		 assertTransaction(transactions.get(3),"Cash", Fee.class, 0, 50);
-		 assertTransaction(transactions.get(4),"GOOG", Dividend.class, 0, 50);
+		fileLoader.setBr("test_data.txt");
+		fileLoader.loadPos();
+		List<Transaction> transactions = fileLoader.loadTrans();
+		assertTransaction(transactions.get(0),"AAPL",Sell.class,100,30000);
+		assertTransaction(transactions.get(1),"GOOG",Buy.class,10,10000);
+		assertTransaction(transactions.get(2),"Cash", Deposit.class, 0, 1000);
+		assertTransaction(transactions.get(3),"Cash", Fee.class, 0, 50);
+		assertTransaction(transactions.get(4),"GOOG", Dividend.class, 0, 50);
 		 
 	}
 	public void assertTransaction(Transaction trans, String item, Class action, 
@@ -72,6 +72,8 @@ TD BUY 100 10000
 	}
 	@Test
 	public void testLoadNextDay() throws Exception{
+		fileLoader.setBr("test_data.txt");
+		fileLoader.loadPos();
 		ReconDay reconDay = fileLoader.loadNextDay();
 		assertNotNull(reconDay);
 		assertNotNull(reconDay.getNextDayInFile());
@@ -79,11 +81,19 @@ TD BUY 100 10000
 	}
 	@Test(expected=Exception.class)
 	public void testFailOnLoadPos() throws Exception{
+		fileLoader.setBr("test_data.txt");
 		fileLoader.loadPos();
 		fileLoader.loadPos();
 	}
 	@Test(expected=Exception.class)
 	public void testFailOnLoadTrans() throws Exception{
+		fileLoader.setBr("test_data.txt");
 		fileLoader.loadTrans();
+	}
+	@Test
+	public void testNoCash() throws Exception{
+		fileLoader.setBr("test_data_no_cash.txt");
+		Map<String,Double> pos0 = fileLoader.loadPos();
+		assertEquals(pos0.get("Cash"),0.0,.001);
 	}
 }
