@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="sell" class = "reconciliation.Sell"/>
+	<bean id="buy" class="reconciliation.Buy"/>
+	<bean id="fee" class="reconciliation.Fee"/>
+	<bean id="deposit" class="reconciliation.Deposit"/>
+	<bean id="dividend" class="reconciliation.Dividend"/>
+
+	<bean id="actions" class="models.Actions">
+		<constructor-arg>
+			<util:map id="actionMap" value-type="reconciliation.PortfolioAction">
+				<entry key="SELL" value-ref="sell" />
+				<entry key="BUY" value-ref="buy"/>
+				<entry key="DEPOSIT" value-ref="deposit"/>
+				<entry key="FEE" value-ref="fee"/>
+				<entry key="DIVIDEND" value-ref="dividend"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+</beans>
