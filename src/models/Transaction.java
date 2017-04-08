@@ -9,7 +9,9 @@ public class Transaction {
 	private String item;
 	//interface represents a possible action
 	private PortfolioAction action;
+	//number of shares that will be affected
 	private double shares;
+	//cash change
 	private double cashChange;
 
 	
@@ -21,6 +23,12 @@ public class Transaction {
 		this.cashChange = cashChange;
 	}
 
+	/*
+	 * apply the action that was filled into the action variable to the parameter. It's a simple wrapper function but it allows
+	 * us to have a single data structure apply a transaction without needing multiple action variables. Any action can be stored
+	 * in the action variable. The primary reason for this is every action must implement the interface of PortfolioAction, and
+	 * therefore every action has a common parent type of PortfolioAction
+	 */
 	public Map<String,Double> applyAction(Map<String,Double> curPort){
 		Map<String,Double> dayShouldBe = action.applyAction(curPort, item, shares, cashChange);
 		return dayShouldBe;

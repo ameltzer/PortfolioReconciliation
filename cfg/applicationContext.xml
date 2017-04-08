@@ -7,10 +7,9 @@
 
 	<bean id="sell" class = "reconciliation.Sell"/>
 	<bean id="buy" class="reconciliation.Buy"/>
-	<bean id="dividend" class="reconciliation.Dividend"/>
 	<bean id="fee" class="reconciliation.Fee"/>
 	<bean id="deposit" class="reconciliation.Deposit"/>
-
+	<bean id="dividend" class="reconciliation.Dividend"/>
 
 	<bean id="actions" class="models.Actions">
 		<constructor-arg>

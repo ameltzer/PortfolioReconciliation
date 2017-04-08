@@ -2,12 +2,15 @@ package reconciliation;
 
 import java.util.Map;
 
-public class Fee implements PortfolioAction {
-
+public class Fee extends CashChange implements PortfolioAction {
+	/**
+	 * An action resulting in an decrease in cash change by the specified amount. In the text file the share change is filled in as 0
+	 * and therefore we don't need to be concerned about shares changing.
+	 */
 	@Override
 	public Map<String, Double> applyAction(Map<String, Double> curPort, String item, double shares, double cashChange) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String,Double> newPort = this.applyAction(curPort, item, shares, cashChange, false);
+		return newPort;
 	}
 
 }
