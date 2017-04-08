@@ -19,25 +19,42 @@ import models.ReconDay;
 import models.Transaction;
 import reconciliation.PortfolioAction;
 
+/**
+ * Concrete implementation of ReconLoader for when the file is text. Due to the fact that text can very easily become larger than main
+ * memory, the loader is designed to read in part of a file at a time. If the file is small and needs to be fully loaded, a class similar
+ * to this one with a few simple changes can be made to do so. The primary change would be replacing the BufferedReader with a List of Strings,
+ * and changing any code that then accesses the BufferedReader to access a List of Strings
+ *
+ */
 public class TextFileLoader implements ReconLoader{
 	
-	private BufferedReader br;	
+	//stores file for access
+	private BufferedReader br;
+	//maps transaction name to transaction class
 	private Actions actions;
+	//keeps track of whether next part of file is a position or transaction part
 	private boolean atPos;
 	
-	public TextFileLoader() throws IOException{
+	/*
+	 * Use Spring to wire together Actions object with this. Since this class will be building the ReconDay data structure, it will
+	 * need to know the mapping between transaction name and transaction class. This is why the Actions object is necessary
+	 * 
+	 * Also creates buffered reader for passed in file
+	 */
+	public TextFileLoader(String file) throws IOException{
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		actions = (Actions) ctx.getBean("actions");
 		ctx.close();
 		atPos = true;
-	}
-	
-	public void setBr(String file) throws IOException{
+		
 		InputStream is = this.getClass().getClassLoader().getResourceAsStream(file);
 		br = new BufferedReader(new InputStreamReader(is));
 		br.readLine();
 	}
-	
+	/**
+	 * Load next day in file, which is a transaction and the position. The order is transaction then position because the initial position
+	 * will be loaded in seprately. This leaves the reader at the position of a transaction.
+	 */
 	@Override
 	public ReconDay loadNextDay() throws Exception{
 		//first line will be pos - # we can ignore it		
@@ -48,7 +65,9 @@ public class TextFileLoader implements ReconLoader{
 		ReconDay reconDay = new ReconDay(pos, transactions);
 		return reconDay;
 	}
-	
+	/**
+	 * just load transaction. Throw an error if not over a transaction
+	 */
 	@Override
 	public List<Transaction> loadTrans() throws Exception{
 		if(atPos){
@@ -71,7 +90,9 @@ public class TextFileLoader implements ReconLoader{
 		atPos=true;
 		return transactions;
 	}
-	
+	/**
+	 * just load position. Throw an error if not over a position
+	 */
 	@Override
 	public Map<String,Double> loadPos() throws Exception{
 		if(!atPos){

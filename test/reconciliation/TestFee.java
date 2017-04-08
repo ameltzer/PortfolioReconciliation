@@ -16,7 +16,9 @@ public class TestFee {
 	public void setup(){
 		fee = new Fee();
 	}
-	
+	/**
+	 * test fee transaction
+	 */
 	@Test
 	public void testSellAction(){
 		Map<String,Double> curPort = new HashMap<>();

@@ -16,7 +16,9 @@ public class TestDividend {
 	public void setup(){
 		dividend = new Dividend();
 	}
-	
+	/**
+	 * test dividend transaction
+	 */
 	@Test
 	public void testDividendAction(){
 		Map<String,Double> curPort = new HashMap<>();

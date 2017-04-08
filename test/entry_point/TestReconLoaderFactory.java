@@ -10,6 +10,9 @@ import reconciliation_loaders.ReconLoader;
 
 public class TestReconLoaderFactory {
 
+	/*
+	 * Since this is just testing the factory, only need to check that the factory produces the correct Actual class.
+	 */
 	@Test
 	public void testBuildTextReconLoader() throws IOException{
 		ReconLoader rl = ReconLoaderFactory.buildTextReconLoader("test_data.txt");

@@ -26,6 +26,10 @@ public class TestTransaction {
 		transaction = new Transaction("AAPL",buy, 100.0, 100.0);
 	}
 	
+	/**
+	 * Since the function pretty much just returns the result of the transaction, only test here is to ensure that it
+	 * just returns the result and nothing else. As such mock the actual action.
+	 */
 	@Test
 	public void testApplyAction(){
 		Map<String,Double> entry = new HashMap<>();

@@ -31,6 +31,9 @@ public class TestReconDay {
 		reconDay = new ReconDay(nextDayInFile, transactions);
 	}
 	
+	/**
+	 * test recon functionality
+	 */
 	@Test
 	public void testDoRecon(){
 		Map<String,Double> nextDayShould = new HashMap<>();
@@ -45,6 +48,9 @@ public class TestReconDay {
 		assertTrue(!discrepencies.containsKey("Cash"));
 	}
 	
+	/**
+	 * test applying all transactions functionality. This is not testing the transaction applyAction functionality. Make sure to mock that.
+	 */
 	@Test
 	public void testApplyTransactions(){
 		Map<String,Double> nextDayShould = new HashMap<>();

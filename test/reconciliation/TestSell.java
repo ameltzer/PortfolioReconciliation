@@ -16,7 +16,9 @@ public class TestSell {
 	public void setup(){
 		sell = new Sell();
 	}
-	
+	/**
+	 * test sell transaction in which stock already exists in portfolio
+	 */
 	@Test
 	public void testSellAction(){
 		Map<String,Double> curPort = new HashMap<>();
@@ -29,7 +31,9 @@ public class TestSell {
 		assertEquals(curPort.get(item), 50.0, .001);
 		assertEquals(curPort.get("Cash"), 300.0, .001);
 	}
-	
+	/**
+	 * test sell transaction in which stock does not already exists in portfolio
+	 */
 	@Test
 	public void testShortSellAction(){
 		Map<String,Double> curPort = new HashMap<>();

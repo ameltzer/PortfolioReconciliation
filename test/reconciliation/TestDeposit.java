@@ -16,9 +16,11 @@ public class TestDeposit {
 	public void setup(){
 		deposit = new Deposit();
 	}
-	
+	/**
+	 * test deposit transaction
+	 */
 	@Test
-	public void testSellAction(){
+	public void testDepositAction(){
 		Map<String,Double> curPort = new HashMap<>();
 		curPort.put("Cash", 200.0);
 		double cashChange = 100;
