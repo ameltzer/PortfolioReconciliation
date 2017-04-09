@@ -95,3 +95,15 @@ simply define a new class that implements ReconLoader and add a method to ReconL
 to return that class
 
 
+
+Tests-
+
+For the most part each class that is tested has its own corresponding testing class in the
+same package, but in different folders. The main idea of the testing is to test either one
+or a couple functions in a single class for a single test, and mock out any dependencies
+on other classes. 
+However there are several tests where the primary point of the function
+they are testing is to return a model class with the right values. The test then checks
+if the model has the right value, and therefore the test also covers lines on that model.
+For example this happens when testing the TextFileLoader because the idea of the class
+is to fill in the models.
